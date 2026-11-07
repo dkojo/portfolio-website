@@ -1,8 +1,10 @@
-export default function PageHeader({ eyebrow, title, children }) {
+import { eyebrow as eyebrowClass } from '../lib/ui.js'
+
+export default function PageHeader({ eyebrow, title, children, as: Heading = 'h1' }) {
   return (
     <div className="mb-9 flex max-w-[65ch] flex-col gap-2">
-      {eyebrow && <div className="font-mono text-xs uppercase tracking-[0.08em] text-muted">{eyebrow}</div>}
-      <h1 className="text-[clamp(1.9rem,4vw,2.6rem)] font-extrabold leading-tight">{title}</h1>
+      {eyebrow && <div className={eyebrowClass}>{eyebrow}</div>}
+      <Heading className="text-[clamp(1.7rem,3.6vw,2.4rem)] font-extrabold leading-tight">{title}</Heading>
       {children && <p className="text-muted">{children}</p>}
     </div>
   )

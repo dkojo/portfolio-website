@@ -1,30 +1,42 @@
-import { Link } from 'react-router'
+import { useState } from 'react'
 import PageHeader from '../components/PageHeader.jsx'
+import ProjectCard from '../components/ProjectCard.jsx'
 import projects from '../data/projects.json'
+import { sectionWrap } from '../lib/ui.js'
+
+const categories = [...new Set(projects.map((p) => p.category))]
 
 export default function Projects() {
+  const [active, setActive] = useState(null)
+  const shown = active ? projects.filter((p) => p.category === active) : projects
+  const chips = [{ name: null, label: 'All', count: projects.length }].concat(
+    categories.map((c) => ({ name: c, label: c, count: projects.filter((p) => p.category === c).length })),
+  )
+
   return (
-    <section className="mx-auto max-w-6xl px-4 py-16">
+    <section className={sectionWrap}>
       <PageHeader eyebrow="Projects" title="Hands-on DevOps work">
-        Case studies with architecture, tools and results.
+        Case studies from Data Service Group, Stunnerz Global and the Ghana Revenue Authority, plus my own platform build.
+        Employer systems are private, so those cards describe the problem, approach and result instead of linking to code.
       </PageHeader>
-      <div className="grid gap-4.5 sm:grid-cols-2 lg:grid-cols-3">
-        {projects.map((p) => (
-          <Link
-            key={p.id}
-            to={`/projects/${p.id}`}
-            className="flex min-w-0 flex-col gap-3 rounded-xl border border-line bg-surface p-5 text-ink no-underline hover:border-accent"
+
+      <div role="group" aria-label="Filter by category" className="mb-6.5 flex flex-wrap gap-2">
+        {chips.map((c) => (
+          <button
+            key={c.label}
+            type="button"
+            aria-pressed={active === c.name}
+            onClick={() => setActive(c.name)}
+            className="cursor-pointer rounded-full border border-line bg-surface px-3.5 py-1.5 text-sm font-medium text-ink aria-pressed:border-ink aria-pressed:bg-ink aria-pressed:text-bg"
           >
-            <span className="font-mono text-xs uppercase tracking-[0.08em] text-muted">{p.category}</span>
-            <h2 className="text-lg font-bold">{p.title}</h2>
-            <p className="text-[0.93rem] text-muted">{p.summary}</p>
-            <div className="mt-auto flex flex-wrap gap-1.5">
-              {p.tags.map((t) => (
-                <span key={t} className="rounded bg-code px-2 py-0.5 font-mono text-xs">{t}</span>
-              ))}
-            </div>
-          </Link>
+            {c.label}
+            <span className="ml-1 font-mono text-xs opacity-70">{c.count}</span>
+          </button>
         ))}
+      </div>
+
+      <div className="grid gap-4.5 sm:grid-cols-2 lg:grid-cols-3">
+        {shown.map((p) => <ProjectCard key={p.id} project={p} />)}
       </div>
     </section>
   )

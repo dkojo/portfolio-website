@@ -1,1 +1,42 @@
-[]
+[
+  {
+    "id": "dsg",
+    "role": "Cloud/DevOps Engineer",
+    "company": "Data Service Group",
+    "short": "Data Service Group",
+    "location": "Bear, Delaware (remote)",
+    "start": "Aug 2024",
+    "end": "Present",
+    "points": [
+      "DevSecOps scanning in GitHub Actions cut code security issues by 30%+",
+      "CI/CD pipelines cut manual deployment effort by 70% and delivery time by 40–50%",
+      "30% lower cloud spend while holding 99.99% uptime"
+    ]
+  },
+  {
+    "id": "stz",
+    "role": "DevOps/Cloud Engineer",
+    "company": "Stunnerz Global Limited",
+    "short": "Stunnerz Global",
+    "location": "London, UK",
+    "start": "Jul 2022",
+    "end": "Jul 2024",
+    "points": [
+      "Zero-downtime RHEL 7 → 8 and Elasticsearch → OpenSearch migrations",
+      "Mentored junior engineers on Git workflows and documentation"
+    ]
+  },
+  {
+    "id": "gra",
+    "role": "Linux Systems Administrator",
+    "company": "Ghana Revenue Authority",
+    "short": "Ghana Revenue Authority",
+    "location": "Ghana",
+    "start": "Jul 2015",
+    "end": "Jun 2022",
+    "points": [
+      "Ran 100+ Linux servers for national tax platforms",
+      "Automation cut manual workload by 50%+ and unplanned downtime by 40%"
+    ]
+  }
+]

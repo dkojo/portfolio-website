@@ -3,12 +3,53 @@
   "shortName": "Daniel Megbenu",
   "title": "DevOps | Cloud Engineer",
   "location": "Cincinnati, Ohio, USA",
+  "workMode": "Remote or hybrid",
   "years": "5+",
-  "tagline": "5+ years architecting, automating and securing enterprise infrastructure across hybrid and cloud-native environments.",
+  "tagline": "5+ years architecting, automating and securing enterprise infrastructure across hybrid and cloud-native environments. Kubernetes, Terraform and AWS, with security and observability built into every pipeline.",
+  "summary": "Cloud and DevOps engineer with 5+ years architecting, automating and securing enterprise infrastructure across hybrid and cloud-native environments. Expert in Terraform, Ansible and CloudFormation, Kubernetes, and CI/CD with Jenkins and GitOps.",
   "email": "danielkojomegbenu@gmail.com",
   "phone": "+1 (540) 676-8845",
   "linkedin": "https://www.linkedin.com/in/daniel-kojo-megbenu-682071262",
   "github": "https://github.com/dkojo",
   "sponsorship": "No sponsorship required",
-  "availability": ["Full-time", "Contract", "Remote or hybrid"]
+  "availability": ["Full-time", "Contract", "Remote or hybrid"],
+  "photo": "/daniel-megbenu.jpg",
+  "resume": "/Daniel-Kojo-Megbenu-Resume.pdf",
+
+  "stats": [
+    { "value": "5+", "label": "Years in production" },
+    { "value": "99.99%", "label": "Uptime maintained" },
+    { "value": "−70%", "label": "Manual deployment effort" },
+    { "value": "3", "label": "Countries: US, UK, Ghana" }
+  ],
+
+  "stack": ["AWS", "Kubernetes", "OpenShift", "Terraform", "Ansible", "Docker", "Helm", "Jenkins", "GitLab CI/CD", "GitHub Actions", "ArgoCD", "SonarQube", "Snyk", "Datadog", "ELK Stack", "Prometheus", "Grafana", "Python", "Bash", "Linux"],
+
+  "story": [
+    "I started as a **Linux systems administrator at the Ghana Revenue Authority**, keeping 100+ servers behind national tax platforms running around the clock, and automating the routine work with Bash and Python.",
+    "Since then I have designed **CI/CD pipelines, Kubernetes and OpenShift platforms, and Terraform-built AWS infrastructure** for teams in London and the United States, with DevSecOps scanning and compliance against HIPAA, SOC 2 and CIS benchmarks built in.",
+    "I mentor teams and **bridge development, operations and security** to raise DevOps maturity. I also bring a finance background: an MSc in Accounting and Finance and experience supporting enterprise financial platforms."
+  ],
+
+  "achievements": [
+    { "value": "−70%", "label": "Manual deployment effort, with 40–50% faster delivery cycles" },
+    { "value": "−30%", "label": "Cloud spend, with no loss of availability or SLA compliance" },
+    { "value": "30%+", "label": "Fewer code security issues after DevSecOps scanning" },
+    { "value": "45%", "label": "Faster root cause analysis with centralised observability" }
+  ],
+
+  "certifications": [
+    { "name": "AWS Certified Solutions Architect – Associate", "issuer": "AWS", "status": "earned" },
+    { "name": "AI Empowered Leader", "issuer": "Enterprise Technology Association", "status": "earned" },
+    { "name": "Claude Certified Architect – Foundations (CCAR-F)", "issuer": "Anthropic", "status": "in-progress" },
+    { "name": "HashiCorp Terraform Associate", "issuer": "HashiCorp", "status": "in-progress" },
+    { "name": "CKA or Docker Certified Associate", "issuer": "CNCF / Docker", "status": "in-progress" }
+  ],
+
+  "education": [
+    { "degree": "MSc Cloud Computing", "school": "University of Fairfax, Salem, Virginia", "date": "Expected April 2027" },
+    { "degree": "MSc Accounting and Finance", "school": "Kwame Nkrumah University of Science and Technology", "date": "March 2023" },
+    { "degree": "BSc Business Administration", "school": "Regentropfen College of Applied Sciences", "date": "July 2020" },
+    { "degree": "Diploma in Business Studies", "school": "Ho Technical University", "date": "May 2012" }
+  ]
 }
