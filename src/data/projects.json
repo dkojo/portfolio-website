@@ -1,0 +1,11 @@
+[
+  {
+    "id": "eks-gitops-platform",
+    "title": "From git push to production on EKS",
+    "category": "Kubernetes & GitOps",
+    "featured": true,
+    "summary": "A 2026 rebuild of my 2024 Jenkins-to-EKS pipeline with GitHub Actions, signed images, Argo CD GitOps, canary releases and full observability.",
+    "tags": ["AWS", "EKS", "Terraform", "GitHub Actions", "Argo CD", "Kyverno", "Prometheus", "Grafana"],
+    "github": ""
+  }
+]

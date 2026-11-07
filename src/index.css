@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+/* Colour tokens: light by default, dark from the OS setting or the theme toggle (data-theme on <html>) */
+:root {
+  --bg: #f4f6f7;
+  --surface: #ffffff;
+  --ink: #13202a;
+  --muted: #55636e;
+  --line: #d9e0e4;
+  --code: #ebf0f2;
+  --accent: #0b6e8a;
+  --accent-ink: #ffffff;
+  --ok: #1d8549;
+  --warn: #a86500;
+  --fail: #c8372d;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d1318; --surface: #141c23; --ink: #e5ebee; --muted: #93a1ab; --line: #25323c; --code: #0f181e;
+    --accent: #5cb9d4; --accent-ink: #062330; --ok: #4cc27d; --warn: #e2a43c; --fail: #f2695c;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d1318; --surface: #141c23; --ink: #e5ebee; --muted: #93a1ab; --line: #25323c; --code: #0f181e;
+  --accent: #5cb9d4; --accent-ink: #062330; --ok: #4cc27d; --warn: #e2a43c; --fail: #f2695c;
+  color-scheme: dark;
+}
+
+/* Expose the tokens as Tailwind utilities: bg-surface, text-muted, border-line, text-accent ... */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-code: var(--code);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-ok: var(--ok);
+  --color-warn: var(--warn);
+  --color-fail: var(--fail);
+  --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { @apply bg-bg text-ink font-sans antialiased leading-relaxed; }
+  h1, h2, h3 { @apply font-display; text-wrap: balance; font-stretch: 110%; }
+  :focus-visible { @apply outline-2 outline-offset-2 outline-accent; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
