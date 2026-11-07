@@ -13,7 +13,9 @@
     "solution": "Terraform builds all infrastructure. GitHub Actions connects to AWS with OIDC and runs Gitleaks, SonarQube and Trivy before signing the image with Cosign and pushing it to ECR. Argo CD deploys from a GitOps repo, Kyverno only admits signed images, and Argo Rollouts releases in canary steps. OpenTelemetry, Prometheus, Loki, Tempo and Grafana cover observability.",
     "flow": ["git push", "GitHub Actions", "Scan + build", "Cosign sign", "Amazon ECR", "GitOps repo", "Argo CD", "Kyverno", "Canary on EKS"],
     "outcome": "Design complete and build under way. Every release will be scanned, signed and rolled out gradually with automatic rollback.",
-    "github": ""
+    "github": "",
+    "pipeline": true,
+    "pipelineRepo": ""
   },
   {
     "id": "devsecops-github-actions",
