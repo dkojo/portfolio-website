@@ -40,10 +40,6 @@ export default function Home() {
                   className="aspect-[4/3.4] w-full object-cover object-[50%_22%]"
                 />
               </picture>
-              <span className="absolute bottom-3.5 left-3.5 inline-flex items-center gap-2 rounded-full bg-surface px-2.5 py-0.5 font-mono text-xs text-ok shadow-md">
-                <span className="size-1.75 rounded-full bg-current motion-safe:animate-pulse" />
-                {profile.sponsorship}
-              </span>
             </div>
             <dl className="grid grid-cols-2 border-t border-line">
               {profile.stats.map((s, i) => (
