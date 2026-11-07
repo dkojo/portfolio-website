@@ -18,7 +18,10 @@ export default function Layout() {
   const { pathname } = useLocation()
 
   // Start each page at the top, like a normal multi-page site
-  useEffect(() => window.scrollTo(0, 0), [pathname])
+  // Block body on purpose: newer browsers return a Promise from scrollTo, and React would treat it as a cleanup function
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' })
+  }, [pathname])
 
   return (
     <div className="flex min-h-screen flex-col">
