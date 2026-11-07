@@ -1,0 +1,79 @@
+/* Flow colours for the pipeline diagram, one per kind of connection */
+.pipeline {
+  --ci: #0b6e8a;
+  --cd: #6a4bd8;
+  --infra: #5a6f80;
+  --traffic: #c46a00;
+  --tel: #c0367a;
+  --notify: #7a3e7e;
+  /* fixed brand tiles, readable on both themes */
+  --aws-net: #8c4fff;
+  --aws-cont: #ed7100;
+  --aws-db: #c925d1;
+  --aws-sec: #dd344c;
+  --tile-dark: #2b3742;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .pipeline {
+    --ci: #5cb9d4; --cd: #a38bff; --infra: #9db0c0; --traffic: #f0a443; --tel: #f07ab4; --notify: #c58bd0;
+  }
+}
+:root[data-theme="dark"] .pipeline {
+  --ci: #5cb9d4; --cd: #a38bff; --infra: #9db0c0; --traffic: #f0a443; --tel: #f07ab4; --notify: #c58bd0;
+}
+
+.pipeline .zone { fill: color-mix(in srgb, var(--accent) 3.5%, transparent); stroke: var(--line); stroke-dasharray: 5 5; }
+.pipeline .zone.aws { fill: color-mix(in srgb, var(--aws-cont) 4%, transparent); }
+.pipeline .zl { font: 500 11px var(--font-mono); letter-spacing: 0.08em; fill: var(--muted); }
+
+.pipeline .edge { fill: none; stroke-width: 1.8; stroke-opacity: 0.42; transition: stroke-opacity 0.3s; }
+.pipeline .edge.done { stroke-opacity: 0.95; }
+.pipeline .edge.active { stroke-opacity: 1; stroke-width: 2.4; stroke-dasharray: 7 5; }
+.pipeline .edge.notify, .pipeline .edge.fail { stroke-dasharray: 4 5; stroke-opacity: 0.28; }
+.pipeline .edge.notify.done, .pipeline .edge.fail.done { stroke-opacity: 0.95; }
+@media (prefers-reduced-motion: no-preference) {
+  .pipeline .edge.active { animation: pipeline-flow 0.5s linear infinite; }
+}
+@keyframes pipeline-flow { to { stroke-dashoffset: -12; } }
+
+.pipeline .e-ci { stroke: var(--ci); } .pipeline .m-ci, .pipeline .pk-ci { fill: var(--ci); }
+.pipeline .e-cd { stroke: var(--cd); } .pipeline .m-cd, .pipeline .pk-cd { fill: var(--cd); }
+.pipeline .e-infra { stroke: var(--infra); } .pipeline .m-infra, .pipeline .pk-infra { fill: var(--infra); }
+.pipeline .e-traffic { stroke: var(--traffic); } .pipeline .m-traffic, .pipeline .pk-traffic { fill: var(--traffic); }
+.pipeline .e-tel { stroke: var(--tel); } .pipeline .m-tel, .pipeline .pk-tel { fill: var(--tel); }
+.pipeline .e-notify { stroke: var(--notify); } .pipeline .m-notify, .pipeline .pk-notify { fill: var(--notify); }
+.pipeline .e-fail { stroke: var(--fail); } .pipeline .m-fail, .pipeline .pk-fail { fill: var(--fail); }
+.pipeline .el { font: 500 10px var(--font-mono); fill: var(--muted); paint-order: stroke; stroke: var(--surface); stroke-width: 4px; stroke-linejoin: round; }
+
+.pipeline .node { cursor: pointer; }
+.pipeline .node:focus { outline: none; }
+.pipeline .node .box { fill: var(--surface); stroke: var(--line); stroke-width: 1.4; transition: stroke 0.2s; }
+.pipeline .node:hover .box { stroke: var(--accent); }
+.pipeline .node:focus-visible .box, .pipeline .node.selected .box { stroke: var(--accent); stroke-width: 2.2; }
+.pipeline .node .halo { fill: none; stroke: var(--ci); stroke-width: 6; opacity: 0; }
+.pipeline .node.running .box { stroke: var(--ci); stroke-width: 2.4; }
+.pipeline .node.running .halo { opacity: 0.25; }
+@media (prefers-reduced-motion: no-preference) {
+  .pipeline .node.running .halo { animation: pipeline-halo 1s ease-in-out infinite; }
+}
+@keyframes pipeline-halo { 50% { opacity: 0.05; } }
+.pipeline .node.passed .box { stroke: color-mix(in srgb, var(--ok) 70%, var(--line)); }
+.pipeline .node.failed .box { stroke: var(--fail); stroke-width: 2.4; }
+.pipeline .n-label { font: 600 12.5px var(--font-sans); fill: var(--ink); }
+.pipeline .n-sub { font: 400 9.5px var(--font-mono); fill: var(--muted); }
+.pipeline .tile { fill: #ffffff; stroke: rgb(0 0 0 / 0.08); }
+.pipeline .tile-t { font: 700 9px var(--font-mono); fill: #ffffff; }
+.pipeline .badge { display: none; }
+.pipeline .node.passed .badge, .pipeline .node.failed .badge { display: inline; }
+.pipeline .badge circle { fill: var(--ok); }
+.pipeline .node.failed .badge circle { fill: var(--fail); }
+.pipeline .badge path { fill: none; stroke: #ffffff; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.pipeline .badge .x { display: none; }
+.pipeline .node.failed .badge .x { display: inline; }
+.pipeline .node.failed .badge .ck { display: none; }
+
+.pipeline .status-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+@media (prefers-reduced-motion: no-preference) {
+  .pipeline [data-status="running"] .status-dot { animation: pipeline-blink 1s ease-in-out infinite; }
+}
+@keyframes pipeline-blink { 50% { opacity: 0.3; } }

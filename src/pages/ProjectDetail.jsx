@@ -1,9 +1,14 @@
+import { lazy, Suspense } from 'react'
 import { Link, useParams } from 'react-router'
 import Tag from '../components/Tag.jsx'
 import projects from '../data/projects.json'
 import { contextFor } from '../lib/projects.js'
 import { btnPrimary, eyebrow, sectionWrap } from '../lib/ui.js'
 import NotFound from './NotFound.jsx'
+
+// The live diagram is only needed on one page, so it loads in its own chunk
+const PipelineDiagram = lazy(() => import('../components/pipeline/PipelineDiagram.jsx'))
+const ChangesTable = lazy(() => import('../components/pipeline/ChangesTable.jsx'))
 
 function Block({ title, children }) {
   return (
@@ -22,7 +27,7 @@ export default function ProjectDetail() {
   const next = projects[(index + 1) % projects.length]
 
   return (
-    <article className={sectionWrap}>
+    <article className={p.pipeline ? 'mx-auto max-w-[1480px] px-4 py-16' : sectionWrap}>
       <Link to="/projects" className="mb-6 inline-block text-sm text-accent">← All projects</Link>
 
       <div className="mb-9 grid max-w-[65ch] gap-2">
@@ -32,19 +37,29 @@ export default function ProjectDetail() {
         <p className="text-muted">{p.summary}</p>
       </div>
 
+      {p.pipeline && (
+        <div className="mb-12">
+          <Suspense fallback={<div className="grid h-[420px] place-items-center rounded-xl border border-line bg-surface text-muted">Loading the pipeline diagram…</div>}>
+            <PipelineDiagram repo={p.pipelineRepo} />
+          </Suspense>
+        </div>
+      )}
+
       <div className="grid max-w-[72ch] gap-7">
         <Block title="Problem"><p>{p.problem}</p></Block>
         <Block title="Solution"><p>{p.solution}</p></Block>
-        <Block title="Architecture">
-          <ol className="flex flex-wrap items-center gap-1.5 rounded-lg bg-code p-4 font-mono text-sm">
-            {p.flow.map((step, i) => (
-              <li key={step} className="flex items-center gap-1.5">
-                {i > 0 && <span aria-hidden="true" className="text-muted">→</span>}
-                <span className="rounded-md border border-line bg-surface px-2.5 py-1.5">{step}</span>
-              </li>
-            ))}
-          </ol>
-        </Block>
+        {!p.pipeline && (
+          <Block title="Architecture">
+            <ol className="flex flex-wrap items-center gap-1.5 rounded-lg bg-code p-4 font-mono text-sm">
+              {p.flow.map((step, i) => (
+                <li key={step} className="flex items-center gap-1.5">
+                  {i > 0 && <span aria-hidden="true" className="text-muted">→</span>}
+                  <span className="rounded-md border border-line bg-surface px-2.5 py-1.5">{step}</span>
+                </li>
+              ))}
+            </ol>
+          </Block>
+        )}
         <Block title="Tools">
           <div className="flex flex-wrap gap-1.5">{p.tags.map((t) => <Tag key={t} name={t} />)}</div>
         </Block>
@@ -53,6 +68,12 @@ export default function ProjectDetail() {
           <div><a href={p.github} target="_blank" rel="noopener" className={btnPrimary}>View the code on GitHub</a></div>
         )}
       </div>
+
+      {p.pipeline && (
+        <Suspense fallback={null}>
+          <ChangesTable />
+        </Suspense>
+      )}
 
       <div className="mt-14 border-t border-line pt-6">
         <span className={eyebrow}>Next project</span>
