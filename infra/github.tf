@@ -20,11 +20,12 @@ data "aws_iam_policy_document" "github_trust" {
       values   = ["sts.amazonaws.com"]
     }
 
-    # Only jobs in this repo that run in the "production" environment, which is limited to the main branch
+    # Only jobs in this repo that run in the "production" environment, which is limited to the main branch.
+    # GitHub decides the claim's format: see `gh api repos/OWNER/REPO/actions/oidc/customization/sub`
     condition {
       test     = "StringEquals"
       variable = "token.actions.githubusercontent.com:sub"
-      values   = ["repo:${var.github_repo}:environment:production"]
+      values   = ["${var.github_oidc_subject_prefix}:environment:production"]
     }
   }
 }

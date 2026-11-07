@@ -81,7 +81,8 @@ jobs:
 
       - uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
         with:
-          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          # A secret rather than a variable so the ARN, which contains the account ID, is masked in public logs
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           role-session-name: portfolio-deploy-${{ github.run_id }}
           aws-region: us-east-1
           mask-aws-account-id: true # logs of public repos are public
