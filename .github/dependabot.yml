@@ -1,0 +1,21 @@
+version: 2
+updates:
+  # npm packages: one grouped pull request a week for minor and patch updates
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      minor-and-patch:
+        update-types: [minor, patch]
+
+  # Keeps the SHA-pinned actions in the workflow current
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: terraform
+    directories: [/infra, /infra/bootstrap]
+    schedule:
+      interval: monthly

@@ -30,3 +30,6 @@ dist-ssr
 *.tfstate.*
 *.tfplan
 crash.log
+
+# Lighthouse CI
+.lighthouseci/

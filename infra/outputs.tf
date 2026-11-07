@@ -19,3 +19,8 @@ output "cloudfront_domain" {
 output "site_url" {
   value = "https://${var.domain_name}"
 }
+
+output "github_deploy_role_arn" {
+  description = "Set as the AWS_ROLE_ARN variable of the repo's production environment"
+  value       = aws_iam_role.github_deploy.arn
+}
