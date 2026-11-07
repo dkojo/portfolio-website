@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react'
 import { Link, useParams } from 'react-router'
+import ClientOnly from '../components/ClientOnly.jsx'
 import Tag from '../components/Tag.jsx'
 import projects from '../data/projects.json'
 import { contextFor } from '../lib/projects.js'
@@ -9,6 +10,11 @@ import NotFound from './NotFound.jsx'
 // The live diagram is only needed on one page, so it loads in its own chunk
 const PipelineDiagram = lazy(() => import('../components/pipeline/PipelineDiagram.jsx'))
 const ChangesTable = lazy(() => import('../components/pipeline/ChangesTable.jsx'))
+
+// Same height as the diagram's first frame, so nothing jumps when it loads
+const diagramPlaceholder = (
+  <div className="grid h-[420px] place-items-center rounded-xl border border-line bg-surface text-muted">Loading the pipeline diagram…</div>
+)
 
 function Block({ title, children }) {
   return (
@@ -39,9 +45,11 @@ export default function ProjectDetail() {
 
       {p.pipeline && (
         <div className="mb-12">
-          <Suspense fallback={<div className="grid h-[420px] place-items-center rounded-xl border border-line bg-surface text-muted">Loading the pipeline diagram…</div>}>
-            <PipelineDiagram repo={p.pipelineRepo} />
-          </Suspense>
+          <ClientOnly fallback={diagramPlaceholder}>
+            <Suspense fallback={diagramPlaceholder}>
+              <PipelineDiagram repo={p.pipelineRepo} />
+            </Suspense>
+          </ClientOnly>
         </div>
       )}
 
@@ -70,9 +78,11 @@ export default function ProjectDetail() {
       </div>
 
       {p.pipeline && (
-        <Suspense fallback={null}>
-          <ChangesTable />
-        </Suspense>
+        <ClientOnly>
+          <Suspense fallback={null}>
+            <ChangesTable />
+          </Suspense>
+        </ClientOnly>
       )}
 
       <div className="mt-14 border-t border-line pt-6">

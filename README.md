@@ -60,6 +60,21 @@ src/
 └── assets/       diagrams and screenshots
 ```
 
+## Build
+
+`npm run build` makes the client bundle, then pre-renders every route to static HTML
+(`dist/about/index.html`, `dist/projects/<id>/index.html` …) plus `404.html` and `robots.txt`.
+Pages load with their content, title and description already in the HTML, and React takes over in the browser.
+
+Build-time environment variables:
+
+| Variable | What it does |
+|---|---|
+| `SITE_URL` | The live site address, such as `https://danielmegbenu.com`. Adds `sitemap.xml`, canonical URLs and the absolute link-preview image that LinkedIn and X need. |
+| `VITE_FORMSPREE_ID` | The Formspree form ID. With it, the contact form sends messages; without it, the form opens the visitor's email app. |
+
+The link-preview image is `public/og-image.png` (1200×630).
+
 ## Deployment
 
 Static build in `dist/` uploaded to a private S3 bucket and served through CloudFront over HTTPS. A GitHub Actions workflow deploys on every push to `main`.
