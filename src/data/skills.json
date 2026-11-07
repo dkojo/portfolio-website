@@ -1,1 +1,10 @@
-[]
+[
+  { "group": "Cloud & Platforms", "items": ["AWS EC2", "S3", "Lambda", "IAM", "VPC", "ELB", "RDS", "Amazon ECS", "Linux (RHEL, CentOS, Ubuntu)"] },
+  { "group": "CI/CD & DevSecOps", "items": ["Jenkins", "GitLab CI/CD", "GitHub Actions", "AWS Pipelines", "ArgoCD", "SonarQube", "Snyk", "AWS Inspector", "Git"] },
+  { "group": "Infrastructure as Code", "items": ["Terraform", "Ansible", "AWS CloudFormation", "Chef"] },
+  { "group": "Containers & Orchestration", "items": ["Docker", "Podman", "Kubernetes", "OpenShift", "AKS", "Amazon EKS", "Amazon ECS", "Helm"] },
+  { "group": "Security & Compliance", "items": ["IAM", "AWS KMS", "Secrets Manager", "CIS Benchmarks", "SOC 2", "HIPAA", "SSL/TLS", "LDAP", "Firewalls"] },
+  { "group": "Monitoring & Observability", "items": ["Prometheus", "Grafana", "ELK Stack", "OpenSearch", "Datadog", "CloudWatch", "Nagios", "Redis"] },
+  { "group": "Scripting & Integration", "items": ["Bash", "Shell", "Python", "REST APIs", "SOAP APIs"] },
+  { "group": "Collaboration & Agile", "items": ["Jira", "Confluence", "ServiceNow", "Lucid", "Agile Scrum", "Sprint planning", "UAT"] }
+]

@@ -1,5 +1,6 @@
 import { Link } from 'react-router'
 import PageHeader from '../components/PageHeader.jsx'
+import { btnPrimary } from '../lib/ui.js'
 
 export default function NotFound() {
   return (
@@ -7,9 +8,7 @@ export default function NotFound() {
       <PageHeader eyebrow="404" title="This page doesn’t exist">
         The link may be old or mistyped.
       </PageHeader>
-      <Link to="/" className="rounded-lg bg-accent px-4.5 py-2.5 font-semibold text-accent-ink no-underline">
-        Go to the home page
-      </Link>
+      <Link to="/" className={btnPrimary}>Go to the home page</Link>
     </section>
   )
 }
