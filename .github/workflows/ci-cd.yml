@@ -1,0 +1,108 @@
+name: CI/CD
+
+# Pull requests: lint, build, link check and Lighthouse. Pushes to main: the same, then deploy to
+# S3 + CloudFront through an AWS role assumed with OIDC (no stored AWS keys), then a smoke test.
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'infra/**'
+      - '**/*.md'
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  SITE_URL: https://danielkojomegbenu.com
+
+jobs:
+  build:
+    name: Lint, build and check
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run build
+
+      - name: Check internal links
+        run: node scripts/check-links.mjs
+
+      - name: Lighthouse
+        run: npx --yes @lhci/cli@0.16.0 autorun
+
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: site
+          path: dist
+          retention-days: 7
+          if-no-files-found: error
+
+  deploy:
+    name: Deploy to AWS
+    needs: build
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment:
+      name: production
+      url: https://danielkojomegbenu.com
+    permissions:
+      contents: read
+      id-token: write # lets the job request the OIDC token AWS trusts
+    concurrency:
+      group: deploy-production
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          sparse-checkout: scripts
+
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: site
+          path: dist
+
+      - uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          role-session-name: portfolio-deploy-${{ github.run_id }}
+          aws-region: us-east-1
+          mask-aws-account-id: true # logs of public repos are public
+
+      - name: Upload to S3 and invalidate CloudFront
+        run: bash scripts/deploy.sh
+        env:
+          SITE_BUCKET: ${{ vars.SITE_BUCKET }}
+          DISTRIBUTION_ID: ${{ vars.DISTRIBUTION_ID }}
+          WAIT_FOR_INVALIDATION: '1'
+
+      - name: Smoke test the live site
+        run: |
+          check() {
+            code=$(curl -s -o /dev/null -w '%{http_code}' "$SITE_URL$1")
+            echo "$1 → $code"
+            [ "$code" = "$2" ] || { echo "::error::$1 returned $code, expected $2"; exit 1; }
+          }
+          check / 200
+          check /projects/eks-gitops-platform 200
+          check /contact 200
+          check /Daniel-Kojo-Megbenu-Resume.pdf 200
+          check /this-page-does-not-exist 404
+          curl -s "$SITE_URL/" | grep -q 'Daniel Kojo Megbenu</h1>' || { echo "::error::Home page content missing"; exit 1; }

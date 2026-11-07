@@ -18,3 +18,8 @@ variable "monthly_budget_usd" {
   type        = number
   default     = 3
 }
+
+variable "github_repo" {
+  description = "owner/name of the repo whose GitHub Actions may deploy the site."
+  type        = string
+}

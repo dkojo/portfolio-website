@@ -35,3 +35,9 @@ aws s3 sync . "$dest" "${quiet[@]}" --delete --size-only
 
 id=$(aws cloudfront create-invalidation --distribution-id "$DISTRIBUTION_ID" --paths "/*" --query Invalidation.Id --output text)
 echo "Uploaded to $dest and started CloudFront invalidation $id"
+
+# CI waits so its smoke test sees the new version, not CloudFront's cached copy
+if [ "${WAIT_FOR_INVALIDATION:-0}" = "1" ]; then
+  aws cloudfront wait invalidation-completed --distribution-id "$DISTRIBUTION_ID" --id "$id"
+  echo "Invalidation $id completed"
+fi
