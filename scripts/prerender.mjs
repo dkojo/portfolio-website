@@ -35,12 +35,21 @@ const template = built.replace('<meta charset="UTF-8" />', () => `<meta charset=
 
 const escape = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 
+const profile = JSON.parse(await readFile(join(root, 'src/data/profile.json'), 'utf8'))
+const LAUNCHED = '2026-11-07T00:00:00Z' // first deploy of the site
+const builtAt = new Date().toISOString()
+
 function socialTags({ title, description }, path) {
   const tags = [
     ['property', 'og:type', 'website'],
-    ['property', 'og:site_name', 'Daniel Kojo Megbenu'],
+    ['property', 'og:site_name', profile.name],
     ['property', 'og:title', title],
     ['property', 'og:description', description],
+    // Author and dates: link-preview scrapers such as LinkedIn's Post Inspector look for these
+    ['name', 'author', profile.name],
+    ['property', 'article:author', profile.linkedin],
+    ['property', 'article:published_time', LAUNCHED],
+    ['property', 'article:modified_time', builtAt],
     ['name', 'twitter:card', 'summary_large_image'],
     ['name', 'twitter:title', title],
     ['name', 'twitter:description', description],
@@ -53,7 +62,25 @@ function socialTags({ title, description }, path) {
       ['property', 'og:image:height', '630'], ['property', 'og:image:alt', title], ['name', 'twitter:image', `${siteUrl}/og-image.png`])
     links.push(`<link rel="canonical" href="${escape(url)}" />`)
   }
+  if (path === '/') links.push(personJsonLd())
   return [...tags.map(([attr, key, value]) => `<meta ${attr}="${key}" content="${escape(value)}" />`), ...links].join('\n    ')
+}
+
+// schema.org Person on the home page, so search engines can connect the site, LinkedIn and GitHub.
+// JSON-LD isn't executed, so the CSP's script hashes don't apply to it.
+function personJsonLd() {
+  const person = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: profile.name,
+    jobTitle: profile.title,
+    description: profile.tagline,
+    address: { '@type': 'PostalAddress', addressLocality: 'Cincinnati', addressRegion: 'OH', addressCountry: 'US' },
+    sameAs: [profile.linkedin, profile.github],
+    knowsAbout: profile.stack,
+    ...(siteUrl && { url: `${siteUrl}/`, image: `${siteUrl}${profile.photo}` }),
+  }
+  return `<script type="application/ld+json">${JSON.stringify(person).replace(/</g, '\\u003c')}</script>`
 }
 
 // Function replacers, so a "$" in page content is inserted as-is instead of read as a replace() pattern
