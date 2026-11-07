@@ -54,14 +54,17 @@ export default function Contact() {
       return
     }
 
+    const subject = `${data.get('type')}: message from ${data.get('name')}`
+
     if (!FORMSPREE_ID) {
-      const subject = encodeURIComponent(`${data.get('type')}: message from ${data.get('name')}`)
       const body = encodeURIComponent(`${data.get('message')}\n\n${data.get('name')} · ${data.get('email')}`)
-      window.location.href = `mailto:${profile.email}?subject=${subject}&body=${body}`
+      window.location.href = `mailto:${profile.email}?subject=${encodeURIComponent(subject)}&body=${body}`
       setStatus({ tone: 'ok', text: 'Your email app should open with the message filled in. Press send there to deliver it.' })
       return
     }
 
+    // Formspree uses _subject for the email subject and replies go to the "email" field
+    data.set('_subject', subject)
     setStatus({ tone: 'ok', text: 'Sending…' })
     try {
       const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, { method: 'POST', body: data, headers: { Accept: 'application/json' } })
@@ -142,6 +145,8 @@ export default function Contact() {
             Message
             <textarea id="f-msg" name="message" required rows="5" placeholder="A few lines about the role or project" className={`${inputClass} resize-y`} />
           </label>
+          {/* Spam trap: hidden from people and screen readers; Formspree drops submissions where bots fill it in */}
+          <input type="text" name="_gotcha" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
           <div><button type="submit" className={btnPrimary}>Send message</button></div>
           {status && <p role="status" className={`text-sm ${status.tone === 'ok' ? 'text-ok' : 'text-warn'}`}>{status.text}</p>}
         </form>
