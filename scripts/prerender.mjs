@@ -1,6 +1,7 @@
 // Turns the client build into one static HTML file per route, plus 404.html, sitemap.xml and robots.txt.
 // Runs after `vite build` and `vite build --ssr`. Set SITE_URL (e.g. https://danielmegbenu.com) to add
 // canonical URLs, absolute link-preview images and the sitemap.
+import { createHash } from 'node:crypto'
 import { mkdir, readFile, rm, writeFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
@@ -11,7 +12,26 @@ const serverDir = join(root, 'dist-server')
 const siteUrl = (process.env.SITE_URL || '').replace(/\/+$/, '')
 
 const { render, metaFor, NOT_FOUND, ROUTES } = await import(pathToFileURL(join(serverDir, 'entry-server.js')).href)
-const template = await readFile(join(dist, 'index.html'), 'utf8')
+const built = await readFile(join(dist, 'index.html'), 'utf8')
+
+// Content Security Policy, with a hash for each inline script so it stays correct when that script changes.
+// Lives here rather than in CloudFront for that reason; CloudFront adds the other security headers.
+const inlineHashes = [...built.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(
+  ([, code]) => `'sha256-${createHash('sha256').update(code).digest('base64')}'`,
+)
+const csp = [
+  "default-src 'self'",
+  `script-src 'self' ${inlineHashes.join(' ')}`,
+  "style-src 'self' 'unsafe-inline'", // React style attributes in the pipeline diagram
+  "img-src 'self' data:",
+  "font-src 'self'",
+  "connect-src 'self' https://formspree.io https://api.github.com", // contact form, live pipeline runs
+  "form-action 'self' https://formspree.io",
+  "base-uri 'self'",
+  "object-src 'none'",
+  'upgrade-insecure-requests',
+].join('; ')
+const template = built.replace('<meta charset="UTF-8" />', () => `<meta charset="UTF-8" />\n    <meta http-equiv="Content-Security-Policy" content="${csp}" />`)
 
 const escape = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 
