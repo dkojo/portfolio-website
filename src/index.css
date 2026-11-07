@@ -10,9 +10,10 @@
   --code: #ebf0f2;
   --accent: #0b6e8a;
   --accent-ink: #ffffff;
-  --ok: #1d8549;
+  /* ok and fail are dark enough to pass WCAG AA on their own 15% tints (status pills) */
+  --ok: #156e3b;
   --warn: #a86500;
-  --fail: #c8372d;
+  --fail: #b02f27;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
@@ -40,7 +41,7 @@
   --color-ok: var(--ok);
   --color-warn: var(--warn);
   --color-fail: var(--fail);
-  --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Archivo Variable", "Archivo", "Helvetica Neue", Arial, sans-serif;
   --font-sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
 }

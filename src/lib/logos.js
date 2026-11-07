@@ -35,7 +35,8 @@ const LOGOS = {
   Python: file('python'),
   Bash: file('bash'),
   Shell: file('bash'),
-  Linux: file('linux'),
+  // 80px PNG: the SVG Tux is ~190 KB of path detail for an icon shown at 20px
+  Linux: '/logos/linux.png',
   RHEL: file('redhat'),
   CentOS: file('centos'),
   Ubuntu: file('ubuntu'),

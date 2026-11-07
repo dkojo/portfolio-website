@@ -28,14 +28,18 @@ export default function Home() {
 
           <div className={`${card} w-full max-w-[440px] overflow-hidden shadow-[0_12px_32px_-18px_rgb(0_0_0/0.25)] md:justify-self-end`}>
             <div className="relative">
-              <img
-                src={profile.photo}
-                alt={`Portrait of ${profile.name}`}
-                width="720"
-                height="900"
-                fetchPriority="high"
-                className="aspect-[4/3.4] w-full object-cover object-[50%_22%]"
-              />
+              {/* WebP at the two sizes the card is shown at; the JPEG stays as the fallback */}
+              <picture>
+                <source type="image/webp" srcSet="/daniel-megbenu-440.webp 440w, /daniel-megbenu-720.webp 720w" sizes="(min-width: 768px) 440px, calc(100vw - 32px)" />
+                <img
+                  src={profile.photo}
+                  alt={`Portrait of ${profile.name}`}
+                  width="720"
+                  height="900"
+                  fetchPriority="high"
+                  className="aspect-[4/3.4] w-full object-cover object-[50%_22%]"
+                />
+              </picture>
               <span className="absolute bottom-3.5 left-3.5 inline-flex items-center gap-2 rounded-full bg-surface px-2.5 py-0.5 font-mono text-xs text-ok shadow-md">
                 <span className="size-1.75 rounded-full bg-current motion-safe:animate-pulse" />
                 {profile.sponsorship}
@@ -66,7 +70,7 @@ export default function Home() {
             Production work with measured outcomes. Open a card for the full case study.
           </PageHeader>
           <div className="grid gap-4.5 sm:grid-cols-2 lg:grid-cols-3">
-            {featured.map((p) => <ProjectCard key={p.id} project={p} />)}
+            {featured.map((p) => <ProjectCard key={p.id} project={p} headingLevel="h3" />)}
           </div>
           <Link to="/projects" className="mt-8 inline-block font-semibold text-accent">See all {projects.length} projects →</Link>
         </div>

@@ -364,7 +364,7 @@ export default function PipelineDiagram({ repo }) {
       <div className="grid gap-4.5 pt-4.5 md:grid-cols-[1.25fr_1fr]">
         <div className="flex min-w-0 flex-col gap-2.5 rounded-xl border border-line bg-surface px-4.5 py-4">
           <div className="flex items-baseline justify-between gap-3">
-            <h3 className="text-base font-bold">Run log</h3>
+            <h2 className="text-base font-bold">Run log</h2>
             <span className="text-sm text-muted">{showLive ? 'GitHub Actions steps' : 'Actions, Argo CD and Grafana events'}</span>
           </div>
           <ol ref={logRef} aria-label="Pipeline log" className="h-75 overflow-y-auto rounded-lg bg-code px-3.5 py-3 font-mono text-[0.8rem] leading-7">
@@ -384,7 +384,7 @@ export default function PipelineDiagram({ repo }) {
 
         <div className="flex min-w-0 flex-col gap-2.5 rounded-xl border border-line bg-surface px-4.5 py-4" aria-live="polite">
           <div className="flex items-baseline justify-between gap-3">
-            <h3 className="text-base font-bold">{node.label}</h3>
+            <h2 className="text-base font-bold">{node.label}</h2>
             <span className={eyebrow}>{node.zone}</span>
           </div>
           <dl className="grid gap-3">

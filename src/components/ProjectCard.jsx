@@ -3,7 +3,8 @@ import { contextFor } from '../lib/projects.js'
 import { card, eyebrow } from '../lib/ui.js'
 import Tag from './Tag.jsx'
 
-export default function ProjectCard({ project }) {
+// headingLevel: 'h2' when the cards sit directly under the page h1, 'h3' under a section h2
+export default function ProjectCard({ project, headingLevel: Heading = 'h2' }) {
   return (
     <Link
       to={`/projects/${project.id}`}
@@ -17,7 +18,7 @@ export default function ProjectCard({ project }) {
           </span>
         )}
       </div>
-      <h3 className="text-lg font-bold leading-snug">{project.title}</h3>
+      <Heading className="text-lg font-bold leading-snug">{project.title}</Heading>
       <div className="font-display font-bold text-accent [font-stretch:108%]">{project.result}</div>
       <p className="text-[0.93rem] text-muted">{project.summary}</p>
       <span className="font-mono text-xs text-muted">{contextFor(project)}</span>
