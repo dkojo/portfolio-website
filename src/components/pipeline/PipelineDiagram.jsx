@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import pipeline from '../../data/pipeline.json'
-import { eyebrow } from '../../lib/ui.js'
 import { NODE_H, nodeWidth } from './geometry.js'
 import { EDGES, byId, edgeById, fmt, liveView, restingState } from './pipelineState.js'
 import useGitHubRun from './useGitHubRun.js'
@@ -385,12 +384,12 @@ export default function PipelineDiagram({ repo }) {
         <div className="flex min-w-0 flex-col gap-2.5 rounded-xl border border-line bg-surface px-4.5 py-4" aria-live="polite">
           <div className="flex items-baseline justify-between gap-3">
             <h2 className="text-base font-bold">{node.label}</h2>
-            <span className={eyebrow}>{node.zone}</span>
+            <span className="label">{node.zone}</span>
           </div>
           <dl className="grid gap-3">
             {[['What it does', node.role], ['In the 2024 design', node.was], ['Why it changed', node.why]].map(([k, v]) => (
               <div key={k}>
-                <dt className={eyebrow}>{k}</dt>
+                <dt className="label">{k}</dt>
                 <dd className="mt-0.5">{v}</dd>
               </div>
             ))}

@@ -1,156 +1,94 @@
 import { useState } from 'react'
-import PageHeader from '../components/PageHeader.jsx'
+import ContactForm from '../components/ContactForm.jsx'
+import Icon from '../components/Icon.jsx'
+import LogoTile from '../components/LogoTile.jsx'
 import profile from '../data/profile.json'
-import { btnPrimary, card, sectionWrap } from '../lib/ui.js'
+import { container } from '../lib/ui.js'
 
-// Set VITE_FORMSPREE_ID at build time to post the form to Formspree; without it the form opens the visitor's email app
-const FORMSPREE_ID = import.meta.env.VITE_FORMSPREE_ID
-
-const icons = {
-  email: <><rect x="2" y="4" width="20" height="16" rx="2" /><path d="m22 7-10 6L2 7" /></>,
-  phone: <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z" />,
-  linkedin: <><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z" /><rect x="2" y="9" width="4" height="12" /><circle cx="4" cy="4" r="2" /></>,
-  github: <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.9a3.4 3.4 0 0 0-.9-2.6c3.1-.4 6.4-1.5 6.4-7A5.4 5.4 0 0 0 20 4.8 5 5 0 0 0 19.9 1S18.7.7 16 2.5a13.4 13.4 0 0 0-7 0C6.3.7 5.1 1 5.1 1A5 5 0 0 0 5 4.8a5.4 5.4 0 0 0-1.5 3.7c0 5.4 3.3 6.6 6.4 7A3.4 3.4 0 0 0 9 18.1V22" />,
-  location: <><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z" /><circle cx="12" cy="10" r="3" /></>,
-}
+// Lets long addresses wrap before "@" or "/" instead of mid-word on narrow screens
+const breakable = (text) => text.split(/(?=[@/])/).flatMap((part, i) => (i ? [<wbr key={i} />, part] : [part]))
 
 function Channel({ icon, label, children, action }) {
   return (
-    <div className={`${card} flex min-w-0 items-center gap-3.5 px-4 py-3.5`}>
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="shrink-0 text-accent">
-        {icons[icon]}
-      </svg>
-      <div className="min-w-0 flex-1">
-        <small className="block font-mono text-xs uppercase tracking-wide text-muted">{label}</small>
-        <div className="font-mono text-[0.9rem] break-words">{children}</div>
-      </div>
+    <li className="card flex min-w-0 items-center gap-3.5 px-5 py-4">
+      <Icon name={icon} size={22} className="text-accent" />
+      <span className="flex min-w-0 flex-1 flex-col">
+        <span className="label">{label}</span>
+        <span className="font-bold [overflow-wrap:anywhere]">{children}</span>
+      </span>
       {action}
-    </div>
+    </li>
   )
 }
 
-const inputClass = 'w-full rounded-md border border-line bg-bg px-3 py-2.5 text-[0.95rem] text-ink'
-
 export default function Contact() {
-  const [copied, setCopied] = useState(false)
-  const [status, setStatus] = useState(null) // { tone: 'ok' | 'warn', text }
+  const [copied, setCopied] = useState(null)
 
-  async function copyEmail() {
+  async function copy(text) {
     try {
-      await navigator.clipboard.writeText(profile.email)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 1800)
+      await navigator.clipboard.writeText(text)
+      setCopied(text)
+      setTimeout(() => setCopied(null), 1800)
     } catch {
-      setStatus({ tone: 'warn', text: `Copy isn’t available in this browser. The address is ${profile.email}.` })
+      // Clipboard can be blocked; the address stays visible to select by hand
     }
   }
 
-  async function submit(e) {
-    e.preventDefault()
-    const form = e.currentTarget
-    const data = new FormData(form)
-    if (!data.get('name')?.trim() || !data.get('email')?.trim() || !data.get('message')?.trim()) {
-      setStatus({ tone: 'warn', text: 'Fill in your name, email and message to send.' })
-      return
-    }
-
-    const subject = `${data.get('type')}: message from ${data.get('name')}`
-
-    if (!FORMSPREE_ID) {
-      const body = encodeURIComponent(`${data.get('message')}\n\n${data.get('name')} · ${data.get('email')}`)
-      window.location.href = `mailto:${profile.email}?subject=${encodeURIComponent(subject)}&body=${body}`
-      setStatus({ tone: 'ok', text: 'Your email app should open with the message filled in. Press send there to deliver it.' })
-      return
-    }
-
-    // Formspree uses _subject for the email subject and replies go to the "email" field
-    data.set('_subject', subject)
-    setStatus({ tone: 'ok', text: 'Sending…' })
-    try {
-      const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, { method: 'POST', body: data, headers: { Accept: 'application/json' } })
-      if (!res.ok) throw new Error(res.statusText)
-      form.reset()
-      setStatus({ tone: 'ok', text: 'Message sent. I reply within one working day.' })
-    } catch {
-      setStatus({ tone: 'warn', text: `The message didn’t send. Please email me directly at ${profile.email}.` })
-    }
-  }
+  const copyButton = (text) => (
+    <button type="button" onClick={() => copy(text)} className="min-h-11 shrink-0 cursor-pointer rounded-lg border-[1.5px] border-line bg-transparent px-3 text-sm font-semibold text-ink hover:bg-soft">
+      {copied === text ? 'Copied' : 'Copy'}
+    </button>
+  )
 
   return (
-    <section className={sectionWrap}>
-      <PageHeader eyebrow="Contact" title="Let’s talk about your platform">
-        The fastest way to reach me is email. I reply within one working day.
-      </PageHeader>
+    <div className="bg-soft">
+      <section className={`${container} grid items-start gap-14 pt-14 pb-24 md:pt-18 lg:grid-cols-[1fr_1.15fr]`}>
+        <div className="flex min-w-0 flex-col gap-7">
+          <div className="flex flex-col gap-4">
+            <span className="eyebrow">Contact</span>
+            <h1 className="m-0 text-[clamp(2.2rem,5vw,3.25rem)] leading-[1.05] font-extrabold tracking-[-0.035em]">Let’s talk about your platform</h1>
+            <p className="m-0 max-w-[46ch] text-lg text-muted">Hiring for a cloud or DevOps role, or need help with a pipeline, cluster or AWS bill? Send a few lines. That’s all it takes to start.</p>
+          </div>
 
-      <div className="grid gap-12 md:grid-cols-[1fr_1.2fr]">
-        <div>
-          <div className="grid gap-3">
-            <Channel
-              icon="email"
-              label="Email"
-              action={
-                <button type="button" onClick={copyEmail} className="shrink-0 cursor-pointer rounded-md border border-line px-2.5 py-1 text-sm font-medium hover:bg-code">
-                  {copied ? 'Copied' : 'Copy'}
-                </button>
-              }
-            >
-              <a href={`mailto:${profile.email}`} className="text-ink no-underline hover:text-accent">{profile.email}</a>
+          <div className="card flex flex-col gap-4.5 p-7">
+            <h2 className="m-0 text-lg font-extrabold">What happens next</h2>
+            <ol className="m-0 flex list-none flex-col gap-4 p-0">
+              {[
+                ['I reply within one business day', 'Usually the same day, from my own inbox.'],
+                ['A 20-minute call', 'Your platform, your goals, and whether I’m the right fit.'],
+                ['A clear next step', 'An interview, a contract, or a scoped consulting plan.'],
+              ].map(([title, text], i) => (
+                <li key={title} className="flex gap-3.5">
+                  <span className="grid size-8 shrink-0 place-items-center rounded-full bg-accent-soft text-sm font-extrabold text-accent">{i + 1}</span>
+                  <span><b>{title}</b><br /><span className="text-muted">{text}</span></span>
+                </li>
+              ))}
+            </ol>
+          </div>
+
+          <ul className="m-0 flex list-none flex-col gap-3 p-0">
+            <Channel icon="mail" label="Email" action={copyButton(profile.email)}>
+              <a href={`mailto:${profile.email}`} className="hover:text-accent">{breakable(profile.email)}</a>
             </Channel>
-            <Channel icon="phone" label="Phone">
-              <a href={`tel:${profile.phone.replace(/[^\d+]/g, '')}`} className="text-ink no-underline hover:text-accent">{profile.phone}</a>
+            <Channel icon="inbox" label="Business enquiries" action={copyButton(profile.businessEmail)}>
+              <a href={`mailto:${profile.businessEmail}`} className="hover:text-accent">{breakable(profile.businessEmail)}</a>
             </Channel>
             <Channel icon="linkedin" label="LinkedIn">
-              <a href={profile.linkedin} target="_blank" rel="noopener" className="text-ink no-underline hover:text-accent">
-                {profile.linkedin.replace('https://www.', '')}
-              </a>
+              <a href={profile.linkedin} target="_blank" rel="noopener" className="hover:text-accent">{breakable(profile.linkedin.replace('https://www.', ''))}</a>
             </Channel>
-            <Channel icon="github" label="GitHub">
-              <a href={profile.github} target="_blank" rel="noopener" className="text-ink no-underline hover:text-accent">
-                {profile.github.replace('https://', '')}
-              </a>
-            </Channel>
-            <Channel icon="location" label="Location">{profile.location} · {profile.workMode}</Channel>
-          </div>
-          <ul className="mt-4.5 flex flex-wrap gap-2" aria-label="Availability">
-            {profile.availability.map((a) => (
-              <li key={a} className="inline-flex items-center gap-1.75 rounded-full bg-ok/15 px-2.5 py-0.5 font-mono text-xs text-ok">
-                <span className="size-1.75 rounded-full bg-current" />
-                {a}
-              </li>
-            ))}
+            <Channel icon="pin" label="Location and work style">{profile.location.replace(', USA', '')} · {profile.workMode.toLowerCase()}</Channel>
           </ul>
+
+          <div className="flex items-center gap-3.5 rounded-2xl bg-brand-navy px-5 py-4 text-[#f4f2fb]">
+            <LogoTile small className="size-13 rounded-xl" />
+            <span className="text-[15px] text-[#c9c4dd]">Consulting and contract work runs through <b className="text-[#f4f2fb]">{profile.company.name}</b>. Choose “Consulting” in the form.</span>
+          </div>
         </div>
 
-        <form onSubmit={submit} noValidate className={`${card} grid gap-3.5 p-6`}>
-          <div className="grid gap-3.5 sm:grid-cols-2">
-            <label htmlFor="f-name" className="grid gap-1.5 text-sm font-medium">
-              Name
-              <input id="f-name" name="name" autoComplete="name" required className={inputClass} />
-            </label>
-            <label htmlFor="f-email" className="grid gap-1.5 text-sm font-medium">
-              Email
-              <input id="f-email" name="email" type="email" autoComplete="email" required className={inputClass} />
-            </label>
-          </div>
-          <label htmlFor="f-type" className="grid gap-1.5 text-sm font-medium">
-            What is this about?
-            <select id="f-type" name="type" className={inputClass}>
-              <option>Full-time role</option>
-              <option>Contract work</option>
-              <option>Freelance project</option>
-              <option>Something else</option>
-            </select>
-          </label>
-          <label htmlFor="f-msg" className="grid gap-1.5 text-sm font-medium">
-            Message
-            <textarea id="f-msg" name="message" required rows="5" placeholder="A few lines about the role or project" className={`${inputClass} resize-y`} />
-          </label>
-          {/* Spam trap: hidden from people and screen readers; Formspree drops submissions where bots fill it in */}
-          <input type="text" name="_gotcha" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
-          <div><button type="submit" className={btnPrimary}>Send message</button></div>
-          {status && <p role="status" className={`text-sm ${status.tone === 'ok' ? 'text-ok' : 'text-warn'}`}>{status.text}</p>}
-        </form>
-      </div>
-    </section>
+        <div className="rounded-[28px] border border-line bg-bg p-6 shadow-[0_30px_60px_-36px_rgb(23_17_42/0.35)] sm:p-10">
+          <ContactForm idPrefix="c" heading="Send a message" />
+        </div>
+      </section>
+    </div>
   )
 }
