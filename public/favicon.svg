@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <style>
-    .bg { fill: #13202a; }
-    .t { fill: #f4f6f7; }
-    @media (prefers-color-scheme: dark) { .bg { fill: #e5ebee; } .t { fill: #0d1318; } }
+    .bg { fill: #5b21b6; }
+    .t { fill: #ffffff; }
+    @media (prefers-color-scheme: dark) { .bg { fill: #c4b5fd; } .t { fill: #140d29; } }
   </style>
   <rect class="bg" width="64" height="64" rx="14" />
   <text class="t" x="32" y="43" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="29" font-weight="800" letter-spacing="-0.5">DM</text>

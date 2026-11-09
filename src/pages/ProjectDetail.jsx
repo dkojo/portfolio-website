@@ -1,10 +1,11 @@
 import { lazy, Suspense } from 'react'
 import { Link, useParams } from 'react-router'
 import ClientOnly from '../components/ClientOnly.jsx'
+import CtaBand from '../components/CtaBand.jsx'
+import Icon from '../components/Icon.jsx'
 import Tag from '../components/Tag.jsx'
 import projects from '../data/projects.json'
 import { contextFor } from '../lib/projects.js'
-import { btnPrimary, eyebrow, sectionWrap } from '../lib/ui.js'
 import NotFound from './NotFound.jsx'
 
 // The live diagram is only needed on one page, so it loads in its own chunk
@@ -13,15 +14,15 @@ const ChangesTable = lazy(() => import('../components/pipeline/ChangesTable.jsx'
 
 // Same height as the diagram's first frame, so nothing jumps when it loads
 const diagramPlaceholder = (
-  <div className="grid h-[420px] place-items-center rounded-xl border border-line bg-surface text-muted">Loading the pipeline diagram…</div>
+  <div className="grid h-[420px] place-items-center rounded-3xl border border-line bg-surface text-muted">Loading the pipeline diagram…</div>
 )
 
-function Block({ title, children }) {
+function StoryCard({ title, children }) {
   return (
-    <div>
-      <h2 className={`${eyebrow} mb-1.5 font-medium`}>{title}</h2>
-      {children}
-    </div>
+    <article className="card flex flex-col gap-3 p-8">
+      <h2 className="eyebrow m-0">{title}</h2>
+      <p className="m-0 text-[16.5px]">{children}</p>
+    </article>
   )
 }
 
@@ -31,66 +32,89 @@ export default function ProjectDetail() {
   if (index === -1) return <NotFound />
   const p = projects[index]
   const next = projects[(index + 1) % projects.length]
+  const wrap = `mx-auto px-5 sm:px-8 ${p.pipeline ? 'max-w-[1280px]' : 'max-w-[1200px]'}`
 
   return (
-    <article className={p.pipeline ? 'mx-auto max-w-[1480px] px-4 py-16' : sectionWrap}>
-      <Link to="/projects" className="mb-6 inline-block text-sm text-accent">← All projects</Link>
-
-      <div className="mb-9 grid max-w-[65ch] gap-2">
-        <div className={eyebrow}>{p.category} · {contextFor(p)}</div>
-        <h1 className="text-[clamp(1.8rem,4vw,2.6rem)] font-extrabold leading-tight">{p.title}</h1>
-        <div className="font-display text-xl font-bold text-accent [font-stretch:108%]">{p.result}</div>
-        <p className="text-muted">{p.summary}</p>
-      </div>
+    <article>
+      <section className={`${wrap} flex flex-col gap-4.5 pt-10 pb-10 md:pt-14`}>
+        <Link to="/projects" className="inline-flex min-h-11 items-center gap-2 self-start text-[15px] font-bold text-accent">
+          <Icon name="back" size={16} strokeWidth={2.4} /> All projects
+        </Link>
+        <span className="eyebrow">{p.category} · {contextFor(p)}</span>
+        <h1 className="m-0 max-w-[20ch] text-[clamp(2.2rem,5vw,3.5rem)] leading-[1.04] font-extrabold tracking-[-0.035em]">{p.title}</h1>
+        <p className="m-0 max-w-[64ch] text-lg text-muted md:text-[19px]">{p.summary}</p>
+        <div className="mt-1.5 flex flex-wrap gap-3">
+          {(p.highlights ?? [p.result]).map((h) => (
+            <span key={h} className="rounded-xl bg-accent-soft px-3.5 py-2 text-[15px] font-bold text-accent">{h}</span>
+          ))}
+        </div>
+      </section>
 
       {p.pipeline && (
-        <div className="mb-12">
+        <section className={`${wrap} pb-16`}>
           <ClientOnly fallback={diagramPlaceholder}>
             <Suspense fallback={diagramPlaceholder}>
               <PipelineDiagram repo={p.pipelineRepo} />
             </Suspense>
           </ClientOnly>
-        </div>
+        </section>
       )}
 
-      <div className="grid max-w-[72ch] gap-7">
-        <Block title="Problem"><p>{p.problem}</p></Block>
-        <Block title="Solution"><p>{p.solution}</p></Block>
+      <section className="border-y border-line bg-soft">
+        <div className={`${wrap} grid gap-6 py-16 md:grid-cols-3 md:py-20`}>
+          <StoryCard title="Problem">{p.problem}</StoryCard>
+          <StoryCard title="Solution">{p.solution}</StoryCard>
+          <StoryCard title="Outcome">{p.outcome}</StoryCard>
+        </div>
+      </section>
+
+      <section className={`${wrap} grid gap-6 py-16 ${p.pipeline ? '' : 'lg:grid-cols-[1.4fr_1fr]'}`}>
         {!p.pipeline && (
-          <Block title="Architecture">
-            <ol className="flex flex-wrap items-center gap-1.5 rounded-lg bg-code p-4 font-mono text-sm">
+          <div className="card flex flex-col gap-4 p-8">
+            <h2 className="eyebrow m-0">Architecture</h2>
+            <ol className="m-0 flex list-none flex-wrap items-center gap-2 p-0 font-mono text-sm">
               {p.flow.map((step, i) => (
-                <li key={step} className="flex items-center gap-1.5">
+                <li key={step} className="flex items-center gap-2">
                   {i > 0 && <span aria-hidden="true" className="text-muted">→</span>}
-                  <span className="rounded-md border border-line bg-surface px-2.5 py-1.5">{step}</span>
+                  <span className="rounded-lg border border-line bg-soft px-3 py-1.5">{step}</span>
                 </li>
               ))}
             </ol>
-          </Block>
+          </div>
         )}
-        <Block title="Tools">
-          <div className="flex flex-wrap gap-1.5">{p.tags.map((t) => <Tag key={t} name={t} />)}</div>
-        </Block>
-        <Block title="Outcome"><p>{p.outcome}</p></Block>
-        {p.github && (
-          <div><a href={p.github} target="_blank" rel="noopener" className={btnPrimary}>View the code on GitHub</a></div>
-        )}
-      </div>
+        <div className="card flex flex-col gap-4 p-8">
+          <h2 className="eyebrow m-0">Tools</h2>
+          <div className="flex flex-wrap gap-2">{p.tags.map((t) => <Tag key={t} name={t} />)}</div>
+          {p.github && (
+            <a href={p.github} target="_blank" rel="noopener" className="btn btn-primary mt-2 self-start">
+              <Icon name="github" size={18} /> View the code on GitHub
+            </a>
+          )}
+        </div>
+      </section>
 
       {p.pipeline && (
         <ClientOnly>
           <Suspense fallback={null}>
-            <ChangesTable />
+            <section className={`${wrap} pb-16`}>
+              <ChangesTable />
+            </section>
           </Suspense>
         </ClientOnly>
       )}
 
-      <div className="mt-14 border-t border-line pt-6">
-        <span className={eyebrow}>Next project</span>
-        <Link to={`/projects/${next.id}`} className="mt-1 block font-display text-lg font-bold text-ink hover:text-accent">
-          {next.title} →
+      <section className={`${wrap} flex flex-col gap-8 pb-24`}>
+        <CtaBand
+          title={p.pipeline ? 'Want a pipeline like this for your team?' : 'Need a result like this on your platform?'}
+          text={p.pipeline ? 'I can walk you through it on a call, or build it on your platform.' : 'Tell me what you’re working on. I reply within one business day.'}
+        />
+        <Link to={`/projects/${next.id}`} className="flex flex-col gap-1 border-t border-line pt-6 no-underline">
+          <span className="label">Next project</span>
+          <span className="inline-flex items-center gap-2 text-[22px] font-extrabold text-ink hover:text-accent">
+            {next.title} <Icon name="arrow" size={20} strokeWidth={2.4} />
+          </span>
         </Link>
-      </div>
+      </section>
     </article>
   )
 }

@@ -4,8 +4,8 @@ import { logoFor } from '../lib/logos.js'
 export default function Tag({ name, large = false }) {
   const logo = logoFor(name)
   const shape = large
-    ? 'gap-2 rounded-lg border border-line bg-surface py-1.5 pr-3 pl-1.5 text-[0.86rem]'
-    : `gap-1.5 rounded bg-code py-0.5 pr-2 text-xs ${logo ? 'pl-0.5' : 'pl-2'}`
+    ? 'gap-2 rounded-xl border border-line bg-surface py-1.5 pr-3.5 pl-1.5 text-[0.86rem]'
+    : `gap-1.5 rounded-lg bg-soft py-1 pr-2.5 text-[12.5px] ${logo ? 'pl-1' : 'pl-2.5'}`
 
   return (
     <span className={`inline-flex items-center font-mono text-ink ${shape}`}>

@@ -1,56 +1,83 @@
 @import "tailwindcss";
 
-/* Colour tokens: light by default, dark from the OS setting or the theme toggle (data-theme on <html>) */
+/* Royal Violet on white. Dark mode comes from the OS setting or the theme toggle (data-theme on <html>).
+   Every text/background pair below passes WCAG AA; the accent is 9.0:1 on white and 10.5:1 in dark mode. */
 :root {
-  --bg: #f4f6f7;
+  --bg: #ffffff;
   --surface: #ffffff;
-  --ink: #13202a;
-  --muted: #55636e;
-  --line: #d9e0e4;
-  --code: #ebf0f2;
-  --accent: #0b6e8a;
+  --soft: #f7f5fc;
+  --ink: #17112a;
+  --muted: #5a5570;
+  --line: #e6e1f0;
+  --code: #f1edf9;
+  --accent: #5b21b6;
   --accent-ink: #ffffff;
-  /* ok and fail are dark enough to pass WCAG AA on their own 15% tints (status pills) */
+  --accent-soft: #efe8fb;
+  /* ok and fail are dark enough to pass AA on their own 15% tints (status pills) */
   --ok: #156e3b;
   --warn: #a86500;
   --fail: #b02f27;
+  /* DKM TECH CONSULTANCY: the logo's own navy and gold, used only around the logo */
+  --brand-navy: #0b0a24;
+  --brand-logo-bg: #03031f;
+  --brand-gold: #e2b657;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0d1318; --surface: #141c23; --ink: #e5ebee; --muted: #93a1ab; --line: #25323c; --code: #0f181e;
-    --accent: #5cb9d4; --accent-ink: #062330; --ok: #4cc27d; --warn: #e2a43c; --fail: #f2695c;
+    --bg: #0e0b17; --surface: #171225; --soft: #130f1f; --ink: #f1eef9; --muted: #aaa4bf; --line: #2c2542; --code: #1e1830;
+    --accent: #c4b5fd; --accent-ink: #140d29; --accent-soft: rgb(167 139 250 / 0.14);
+    --ok: #4cc27d; --warn: #e2a43c; --fail: #f2695c;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #0d1318; --surface: #141c23; --ink: #e5ebee; --muted: #93a1ab; --line: #25323c; --code: #0f181e;
-  --accent: #5cb9d4; --accent-ink: #062330; --ok: #4cc27d; --warn: #e2a43c; --fail: #f2695c;
+  --bg: #0e0b17; --surface: #171225; --soft: #130f1f; --ink: #f1eef9; --muted: #aaa4bf; --line: #2c2542; --code: #1e1830;
+  --accent: #c4b5fd; --accent-ink: #140d29; --accent-soft: rgb(167 139 250 / 0.14);
+  --ok: #4cc27d; --warn: #e2a43c; --fail: #f2695c;
   color-scheme: dark;
 }
 
-/* Expose the tokens as Tailwind utilities: bg-surface, text-muted, border-line, text-accent ... */
+/* Expose the tokens as Tailwind utilities: bg-surface, text-muted, border-line, text-accent … */
 @theme inline {
   --color-bg: var(--bg);
   --color-surface: var(--surface);
+  --color-soft: var(--soft);
   --color-ink: var(--ink);
   --color-muted: var(--muted);
   --color-line: var(--line);
   --color-code: var(--code);
   --color-accent: var(--accent);
   --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
   --color-ok: var(--ok);
   --color-warn: var(--warn);
   --color-fail: var(--fail);
-  --font-display: "Archivo Variable", "Archivo", "Helvetica Neue", Arial, sans-serif;
-  --font-sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --color-brand-navy: var(--brand-navy);
+  --color-brand-logo-bg: var(--brand-logo-bg);
+  --color-brand-gold: var(--brand-gold);
+  --font-display: "Plus Jakarta Sans Variable", "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-sans: "Plus Jakarta Sans Variable", "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
 }
 
 @layer base {
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; scroll-padding-top: 88px; }
   body { @apply bg-bg text-ink font-sans antialiased leading-relaxed; }
-  h1, h2, h3 { @apply font-display; text-wrap: balance; font-stretch: 110%; }
+  h1, h2, h3 { @apply font-display tracking-tight; text-wrap: balance; }
   :focus-visible { @apply outline-2 outline-offset-2 outline-accent; }
+}
+
+/* Shared pieces from the design: buttons, cards, labels, tags */
+@layer components {
+  .btn { @apply inline-flex min-h-12 cursor-pointer items-center justify-center gap-2.5 rounded-xl border-[1.5px] border-transparent px-5.5 font-bold no-underline transition; }
+  .btn-primary { @apply bg-accent text-accent-ink hover:brightness-110; }
+  .btn-ghost { @apply border-line bg-transparent text-ink hover:bg-soft; }
+  .btn-lg { @apply min-h-14 px-7 text-[17px]; }
+  .card { @apply rounded-[20px] border border-line bg-surface; }
+  .eyebrow { @apply font-mono text-[13px] font-medium uppercase tracking-[0.08em] text-accent; }
+  .label { @apply font-mono text-xs uppercase tracking-[0.06em] text-muted; }
+  .tag { @apply inline-flex items-center rounded-lg bg-soft px-2.5 py-1 font-mono text-[12.5px] text-ink; }
+  .section-title { @apply text-[clamp(2rem,4vw,2.75rem)] font-extrabold leading-[1.1] tracking-[-0.03em]; }
 }
 
 @media (prefers-reduced-motion: reduce) {
