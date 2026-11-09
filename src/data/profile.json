@@ -1,40 +1,76 @@
 {
   "name": "Daniel Kojo Megbenu",
   "shortName": "Daniel Megbenu",
-  "title": "DevOps | Cloud Engineer",
+  "title": "Cloud & DevOps Engineer",
   "location": "Cincinnati, Ohio, USA",
-  "workMode": "Remote or hybrid",
+  "workMode": "Onsite, hybrid or remote",
   "years": "5+",
-  "tagline": "5+ years architecting, automating and securing enterprise infrastructure across hybrid and cloud-native environments. Kubernetes, Terraform and AWS, with security and observability built into every pipeline.",
+  "headline": "I build cloud platforms that **ship safely** and stay up.",
+  "tagline": "5+ years automating and securing AWS, Kubernetes and Terraform platforms for teams in the US, the UK and Ghana, with security and observability built into every pipeline.",
   "summary": "Cloud and DevOps engineer with 5+ years architecting, automating and securing enterprise infrastructure across hybrid and cloud-native environments. Expert in Terraform, Ansible and CloudFormation, Kubernetes, and CI/CD with Jenkins and GitOps.",
   "email": "danielkojomegbenu@gmail.com",
+  "businessEmail": "contact@danielkojomegbenu.com",
   "phone": "+1 (540) 676-8845",
   "linkedin": "https://www.linkedin.com/in/danielkojomegbenu",
   "github": "https://github.com/dkojo",
-  "availability": ["Full-time", "Contract", "Remote or hybrid"],
+  "availability": "Available for full-time and contract roles",
+  "replyTime": "one business day",
   "photo": "/daniel-megbenu.jpg",
   "resume": "/Daniel-Kojo-Megbenu-Resume.pdf",
+  "resumeMeta": "3 pages · PDF · updated November 2026",
 
-  "stats": [
-    { "value": "5+", "label": "Years in production" },
-    { "value": "99.99%", "label": "Uptime maintained" },
-    { "value": "−70%", "label": "Manual deployment effort" },
-    { "value": "3", "label": "Countries: US, UK, Ghana" }
+  "company": {
+    "name": "DKM TECH CONSULTANCY",
+    "slogan": "Connecting with you",
+    "logo": "/dkm-tech-consultancy.webp",
+    "logoSmall": "/dkm-tech-consultancy-sm.webp",
+    "about": "The company I founded for consulting and contract engagements. When you’d rather work with a business than an individual, the same engineering comes with a proper contract, invoices and a single point of contact."
+  },
+
+  "heroStats": [
+    { "value": "99.99%", "label": "uptime maintained" },
+    { "value": "−70%", "label": "manual deployment effort" }
   ],
+
+  "employers": ["Data Service Group", "Stunnerz Global", "Ghana Revenue Authority"],
 
   "stack": ["AWS", "Kubernetes", "OpenShift", "Terraform", "Ansible", "Docker", "Helm", "Jenkins", "GitLab CI/CD", "GitHub Actions", "ArgoCD", "SonarQube", "Snyk", "Datadog", "ELK Stack", "Prometheus", "Grafana", "Python", "Bash", "Linux"],
 
+  "services": [
+    { "icon": "cloud", "title": "Cloud infrastructure as code", "text": "AWS environments built with Terraform and Ansible: reviewed, repeatable, and cheaper to run.", "tags": ["AWS", "Terraform", "Ansible", "CloudFormation"] },
+    { "icon": "shield", "title": "CI/CD with security built in", "text": "Pipelines that scan, test and deploy on every change, so releases are routine instead of risky.", "tags": ["GitHub Actions", "Jenkins", "SonarQube", "Snyk"] },
+    { "icon": "pulse", "title": "Kubernetes and observability", "text": "Containers on EKS and OpenShift, with the metrics, logs and alerts that find problems before users do.", "tags": ["Kubernetes", "Helm", "Prometheus", "Grafana"] }
+  ],
+
+  "steps": [
+    { "title": "Send a message", "text": "Tell me about the role or project in a few lines. I reply within one business day." },
+    { "title": "A 20-minute call", "text": "We talk through your platform, your pain points and what success looks like." },
+    { "title": "A clear next step", "text": "Interview, contract or a scoped consulting plan through DKM TECH CONSULTANCY." }
+  ],
+
+  "testimonials": [
+    { "quote": "Daniel took our releases from a nervous Friday-night ritual to something nobody thinks about any more. When production was on fire he was the calmest person on the call, and he wrote the whole thing up the next morning.", "name": "Serge Kamgang", "role": "Engineering Manager", "company": "Data Service Group" },
+    { "quote": "Daniel treated security as part of the daily job, not a project for later. Patching, SELinux, firewall rules: he scripted all of it, so our hundred-plus servers stayed consistent. And when something broke at 2 a.m., he was already on the call.", "name": "Joselyne", "role": "Security Lead", "company": "Ghana Revenue Authority" },
+    { "quote": "We had to move off RHEL 7 and migrate our Elasticsearch clusters to OpenSearch without taking anything down. Daniel planned both carefully, and our users never noticed. The juniors on my team also came out of working with him as better engineers.", "name": "Benjamin Smith", "role": "Head of Infrastructure", "company": "Stunnerz Global Ltd, London" }
+  ],
+
   "story": [
-    "I started as a **Linux systems administrator at the Ghana Revenue Authority**, keeping 100+ servers behind national tax platforms running around the clock, and automating the routine work with Bash and Python.",
-    "Since then I have designed **CI/CD pipelines, Kubernetes and OpenShift platforms, and Terraform-built AWS infrastructure** for teams in London and the United States, with DevSecOps scanning and compliance against HIPAA, SOC 2 and CIS benchmarks built in.",
-    "I mentor teams and **bridge development, operations and security** to raise DevOps maturity. I also bring a finance background: an MSc in Accounting and Finance and experience supporting enterprise financial platforms."
+    "I started as a Linux systems administrator keeping 100+ servers running for a national tax authority, and I’ve been automating the repetitive work ever since. Today I design AWS infrastructure as code, build CI/CD pipelines teams trust, and run Kubernetes platforms with monitoring that pages the right person for the right reason.",
+    "I care about security from the first commit, cloud bills someone has actually read, and documentation the next engineer can follow at 3 a.m."
   ],
 
   "achievements": [
-    { "value": "−70%", "label": "Manual deployment effort, with 40–50% faster delivery cycles" },
-    { "value": "−30%", "label": "Cloud spend, with no loss of availability or SLA compliance" },
-    { "value": "30%+", "label": "Fewer code security issues after DevSecOps scanning" },
-    { "value": "45%", "label": "Faster root cause analysis with centralised observability" }
+    { "value": "−70%", "label": "manual deployment effort, with 40–50% faster delivery" },
+    { "value": "−30%", "label": "AWS spend, with no loss of availability or SLA" },
+    { "value": "30%+", "label": "fewer code security issues after DevSecOps scanning" },
+    { "value": "45%", "label": "faster root-cause analysis with central observability" }
+  ],
+
+  "glance": [
+    { "value": "5+", "label": "years in cloud and DevOps" },
+    { "value": "3", "label": "countries: US, UK, Ghana" },
+    { "value": "99.99%", "label": "uptime maintained" },
+    { "value": "−30%", "label": "AWS spend" }
   ],
 
   "certifications": [
