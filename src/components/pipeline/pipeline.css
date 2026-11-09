@@ -1,7 +1,7 @@
 /* Flow colours for the pipeline diagram, one per kind of connection */
 .pipeline {
-  --ci: #0b6e8a;
-  --cd: #6a4bd8;
+  --ci: #5b21b6;
+  --cd: #1d5fd1;
   --infra: #5a6f80;
   --traffic: #c46a00;
   --tel: #c0367a;
@@ -15,11 +15,11 @@
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .pipeline {
-    --ci: #5cb9d4; --cd: #a38bff; --infra: #9db0c0; --traffic: #f0a443; --tel: #f07ab4; --notify: #c58bd0;
+    --ci: #c4b5fd; --cd: #7aa7ff; --infra: #9db0c0; --traffic: #f0a443; --tel: #f07ab4; --notify: #c58bd0;
   }
 }
 :root[data-theme="dark"] .pipeline {
-  --ci: #5cb9d4; --cd: #a38bff; --infra: #9db0c0; --traffic: #f0a443; --tel: #f07ab4; --notify: #c58bd0;
+  --ci: #c4b5fd; --cd: #7aa7ff; --infra: #9db0c0; --traffic: #f0a443; --tel: #f07ab4; --notify: #c58bd0;
 }
 
 .pipeline .zone { fill: color-mix(in srgb, var(--accent) 3.5%, transparent); stroke: var(--line); stroke-dasharray: 5 5; }
