@@ -7,6 +7,7 @@
     "caseStudy": true,
     "title": "From git push to production on EKS",
     "result": "In progress · 2026 rebuild",
+    "highlights": ["0 stored AWS keys · OIDC", "3 security scanners before deploy", "Bad releases reach 10% of users, then roll back"],
     "summary": "My 2024 Jenkins-to-EKS pipeline rebuilt with GitHub Actions, signed images, Argo CD GitOps, canary releases and full observability.",
     "tags": ["AWS", "EKS", "Terraform", "GitHub Actions", "Argo CD", "Kyverno", "Prometheus", "Grafana"],
     "problem": "The 2024 pipeline worked end to end, but the cluster was created by hand with eksctl, Jenkins pushed images straight into the cluster, and nothing checked an image before it ran.",
