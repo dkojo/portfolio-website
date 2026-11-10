@@ -1,6 +1,6 @@
 import profile from '../data/profile.json'
 
-// The DKM TECH CONSULTANCY logo on its own navy, so its gold reads as intended on light and dark pages
+// The DKM TECH CONSULTING logo on its own navy, so its gold reads as intended on light and dark pages
 export default function LogoTile({ className = 'size-11 rounded-[10px]', small = false, alt = '' }) {
   const { company } = profile
   return (
