@@ -100,7 +100,7 @@ export default function Layout() {
             Founder of {profile.company.name}
           </span>
           <span className="w-full text-[13.5px] text-muted">
-            © {year} {profile.name} · Hosted on AWS · S3, CloudFront, Route 53 · deployed by GitHub Actions
+            © {year} {profile.name}
           </span>
         </div>
       </footer>

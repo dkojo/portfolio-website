@@ -20,10 +20,10 @@
   "resumeMeta": "3 pages · PDF · updated November 2026",
 
   "company": {
-    "name": "DKM TECH CONSULTANCY",
+    "name": "DKM TECH CONSULTING",
     "slogan": "Connecting with you",
-    "logo": "/dkm-tech-consultancy.webp",
-    "logoSmall": "/dkm-tech-consultancy-sm.webp",
+    "logo": "/dkm-tech-consulting.webp",
+    "logoSmall": "/dkm-tech-consulting-sm.webp",
     "about": "The company I founded for consulting and contract engagements. When you’d rather work with a business than an individual, the same engineering comes with a proper contract, invoices and a single point of contact."
   },
 
@@ -45,7 +45,7 @@
   "steps": [
     { "title": "Send a message", "text": "Tell me about the role or project in a few lines. I reply within one business day." },
     { "title": "A 20-minute call", "text": "We talk through your platform, your pain points and what success looks like." },
-    { "title": "A clear next step", "text": "Interview, contract or a scoped consulting plan through DKM TECH CONSULTANCY." }
+    { "title": "A clear next step", "text": "Interview, contract or a scoped consulting plan through DKM TECH CONSULTING." }
   ],
 
   "testimonials": [
