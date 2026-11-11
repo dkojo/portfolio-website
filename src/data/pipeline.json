@@ -89,7 +89,7 @@
       "role": "An Application Load Balancer created from the Kubernetes Ingress by the AWS Load Balancer Controller.",
       "was": "Not shown.",
       "why": "Routing is defined in Git next to the app." },
-    { "id": "eks", "x": 730, "y": 640, "w": 150, "label": "Amazon EKS", "sub": "shop-api · 6 pods", "icon": { "logo": "kubernetes" }, "zone": "Run",
+    { "id": "eks", "x": 730, "y": 640, "w": 150, "label": "Amazon EKS", "sub": "dkmwebapp · 6 pods", "icon": { "logo": "kubernetes" }, "zone": "Run",
       "role": "Runs the service in private subnets across three availability zones. The Horizontal Pod Autoscaler adds pods under load.",
       "was": "A cluster created with eksctl, with Prometheus and Grafana inside it.",
       "why": "Same engine, now built by Terraform with managed add-ons and upgraded on a schedule." },
@@ -170,7 +170,7 @@
     { "edge": "gitleaks-sonar" },
     { "node": "sonar", "stage": "SAST", "ms": 950, "log": "SonarQube quality gate PASSED · coverage 82.4% · 0 new issues" },
     { "edge": "sonar-build" },
-    { "node": "build", "stage": "Build & test", "ms": 1050, "log": "mvn -B verify: 214 tests, 0 failures → shop-api-1.8.0.jar" },
+    { "node": "build", "stage": "Build & test", "ms": 1050, "log": "mvn -B verify: 214 tests, 0 failures → dkmwebapp-1.8.0.jar" },
     { "edge": "build-docker" },
     { "node": "docker", "stage": "Image build", "ms": 950, "log": "docker buildx: linux/amd64 + linux/arm64 · image 148 MB" },
     { "edge": "docker-trivy" },
@@ -179,17 +179,17 @@
     { "edge": "trivy-cosign" },
     { "node": "cosign", "stage": "Sign", "ms": 650, "log": "cosign sign (keyless, GitHub OIDC) · SBOM attached (SPDX)" },
     { "edge": "cosign-ecr" },
-    { "node": "ecr", "stage": "Publish", "ms": 600, "log": "Pushed shop-api@sha256:4f2c…e91 to ECR · scan on push: clean" },
+    { "node": "ecr", "stage": "Publish", "ms": 600, "log": "Pushed dkmwebapp@sha256:4f2c…e91 to ECR · scan on push: clean" },
     { "edge": "ecr-gitops" },
     { "node": "gitops", "stage": "GitOps commit", "ms": 500, "log": "CI committed new image digest to gitops/envs/prod/values.yaml" },
     { "edge": "gitops-argocd" },
-    { "node": "argocd", "stage": "Sync", "ms": 800, "log": "Argo CD: shop-api OutOfSync → Syncing" },
+    { "node": "argocd", "stage": "Sync", "ms": 800, "log": "Argo CD: dkmwebapp OutOfSync → Syncing" },
     { "edge": "argocd-kyverno" },
     { "node": "kyverno", "stage": "Policy check", "ms": 600, "log": "Kyverno: image signature valid · 4/4 policies passed" },
     { "edge": "kyverno-rollouts" },
     { "node": "rollouts", "stage": "Canary", "ms": 2700, "logs": ["Canary 10%: error rate 0.2%, p95 176 ms · analysis passed", "Canary 50%: error rate 0.1%, p95 181 ms · analysis passed", "Promoted to 100%"] },
     { "edge": "rollouts-eks" },
-    { "node": "eks", "stage": "Rollout", "ms": 700, "log": "6/6 pods ready on shop-api 1.8.0 · Karpenter added 1 spot node" },
+    { "node": "eks", "stage": "Rollout", "ms": 700, "log": "6/6 pods ready on dkmwebapp 1.8.0 · Karpenter added 1 spot node" },
     { "edge": "eks-otel" },
     { "node": "otel", "ms": 300 },
     { "edge": "otel-prom" },
@@ -197,7 +197,7 @@
     { "edge": "prom-grafana" },
     { "node": "grafana", "stage": "Verify", "ms": 500, "log": "Grafana: SLO 99.9% on track · deployment recorded for DORA metrics" },
     { "edge": "argocd-slack" },
-    { "node": "slack", "ms": 400, "log": "Slack #deployments: shop-api 1.8.0 is live in prod" },
+    { "node": "slack", "ms": 400, "log": "Slack #deployments: dkmwebapp 1.8.0 is live in prod" },
     { "edge": "slack-dev" }
   ],
 
@@ -215,7 +215,7 @@
       ["02:19", "cosign sign · pushed to ECR", "ok"],
       ["02:31", "Argo CD synced · Kyverno 4/4 passed", "ok"],
       ["03:30", "Canary promoted to 100% · 6/6 pods ready", "ok"],
-      ["03:41", "Slack #deployments: shop-api 1.7.3 is live in prod", "ok"]
+      ["03:41", "Slack #deployments: dkmwebapp 1.7.3 is live in prod", "ok"]
     ]
   },
 
