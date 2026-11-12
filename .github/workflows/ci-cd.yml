@@ -106,4 +106,4 @@ jobs:
           check /contact 200
           check /Daniel-Kojo-Megbenu-Resume.pdf 200
           check /this-page-does-not-exist 404
-          curl -s "$SITE_URL/" | grep -q 'Daniel Kojo Megbenu</h1>' || { echo "::error::Home page content missing"; exit 1; }
+          curl -s "$SITE_URL/" | grep -q '<title>Daniel Kojo Megbenu' || { echo "::error::Home page content missing"; exit 1; }
