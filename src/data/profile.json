@@ -4,10 +4,10 @@
   "title": "Cloud & DevOps Engineer",
   "location": "Cincinnati, Ohio, USA",
   "workMode": "Onsite, hybrid or remote",
-  "years": "5+",
+  "years": "7+",
   "headline": "I build cloud platforms that **ship safely** and stay up.",
-  "tagline": "5+ years automating and securing AWS, Kubernetes and Terraform platforms for teams in the US, the UK and Ghana, with security and observability built into every pipeline.",
-  "summary": "Cloud and DevOps engineer with 5+ years architecting, automating and securing enterprise infrastructure across hybrid and cloud-native environments. Expert in Terraform, Ansible and CloudFormation, Kubernetes, and CI/CD with Jenkins and GitOps.",
+  "tagline": "7+ years automating and securing AWS, Kubernetes and Terraform platforms for teams in the US, the UK and Ghana, with security and observability built into every pipeline.",
+  "summary": "Cloud and DevOps engineer with 7+ years architecting, automating and securing enterprise infrastructure across hybrid and cloud-native environments. Expert in Terraform, Ansible and CloudFormation, Kubernetes, and CI/CD with Jenkins and GitOps.",
   "email": "danielkojomegbenu@gmail.com",
   "businessEmail": "contact@danielkojomegbenu.com",
   "phone": "+1 (540) 676-8845",
@@ -67,7 +67,7 @@
   ],
 
   "glance": [
-    { "value": "5+", "label": "years in cloud and DevOps" },
+    { "value": "7+", "label": "years in cloud and DevOps" },
     { "value": "3", "label": "countries: US, UK, Ghana" },
     { "value": "99.99%", "label": "uptime maintained" },
     { "value": "−30%", "label": "AWS spend" }
