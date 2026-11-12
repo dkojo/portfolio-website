@@ -67,7 +67,7 @@
   ],
 
   "glance": [
-    { "value": "7+", "label": "years in cloud and DevOps" },
+    { "value": "7+", "label": "years in infrastructure, cloud and DevOps" },
     { "value": "3", "label": "countries: US, UK, Ghana" },
     { "value": "99.99%", "label": "uptime maintained" },
     { "value": "−30%", "label": "AWS spend" }
