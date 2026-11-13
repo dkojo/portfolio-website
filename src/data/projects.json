@@ -6,17 +6,17 @@
     "featured": true,
     "caseStudy": true,
     "title": "From git push to production on EKS",
-    "result": "In progress · 2026 rebuild",
-    "highlights": ["0 stored AWS keys · OIDC", "3 security scanners before deploy", "Bad releases reach 10% of users, then roll back"],
+    "result": "Signed, scanned and canary-released",
+    "highlights": ["0 stored AWS keys · OIDC", "Bad release rolled back in 87 s", "Unsigned images rejected"],
     "summary": "My 2024 Jenkins-to-EKS pipeline rebuilt with GitHub Actions, signed images, Argo CD GitOps, canary releases and full observability.",
     "tags": ["AWS", "EKS", "Terraform", "GitHub Actions", "Argo CD", "Kyverno", "Prometheus", "Grafana"],
     "problem": "The 2024 pipeline worked end to end, but the cluster was created by hand with eksctl, Jenkins pushed images straight into the cluster, and nothing checked an image before it ran.",
-    "solution": "Terraform builds all infrastructure. GitHub Actions connects to AWS with OIDC and runs Gitleaks, SonarQube and Trivy before signing the image with Cosign and pushing it to ECR. Argo CD deploys from a GitOps repo, Kyverno only admits signed images, and Argo Rollouts releases in canary steps. OpenTelemetry, Prometheus, Loki, Tempo and Grafana cover observability.",
+    "solution": "Terraform builds all infrastructure. GitHub Actions connects to AWS with OIDC and runs Gitleaks, SonarQube and Trivy before signing the image with Cosign and pushing it to ECR. Argo CD deploys from Git, Kyverno only admits signed images, and Argo Rollouts releases in canary steps checked against Prometheus. AWS WAF filters traffic at the load balancer. OpenTelemetry, Prometheus, Loki, Tempo and Grafana cover observability.",
     "flow": ["git push", "GitHub Actions", "Scan + build", "Cosign sign", "Amazon ECR", "GitOps repo", "Argo CD", "Kyverno", "Canary on EKS"],
-    "outcome": "Design complete and build under way. Every release will be scanned, signed and rolled out gradually with automatic rollback.",
-    "github": "",
+    "outcome": "Built and measured: a release that failed 30% of requests reached 10% of traffic and was rolled back automatically 87 seconds later (4 of 106 requests failed, none after). Unsigned images, foreign images, tags instead of digests, pods without limits and privileged containers are all rejected at admission. Releases and node replacements dropped no requests (0 of 371, 952 of 952). AWS WAF blocks SQL injection, XSS, path traversal and Log4Shell probes. The platform is rebuilt from Git in about 20 minutes and torn down after each session.",
+    "github": "https://github.com/dkojo/dkmwebapp/tree/remodelled",
     "pipeline": true,
-    "pipelineRepo": ""
+    "pipelineRepo": "dkojo/dkmwebapp"
   },
   {
     "id": "devsecops-github-actions",
