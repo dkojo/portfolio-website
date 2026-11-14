@@ -25,7 +25,7 @@ const csp = [
   "style-src 'self' 'unsafe-inline'", // React style attributes in the pipeline diagram
   "img-src 'self' data:",
   "font-src 'self'",
-  "connect-src 'self' https://formspree.io https://api.github.com https://cloud.umami.is https://api-gateway.umami.dev", // contact form, live pipeline runs, Umami
+  "connect-src 'self' https://formspree.io https://api.github.com https://cloud.umami.is https://gateway.umami.is", // contact form, live pipeline runs, Umami
   "form-action 'self' https://formspree.io",
   "base-uri 'self'",
   "object-src 'none'",
