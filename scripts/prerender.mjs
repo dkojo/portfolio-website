@@ -21,11 +21,11 @@ const inlineHashes = [...built.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(
 )
 const csp = [
   "default-src 'self'",
-  `script-src 'self' ${inlineHashes.join(' ')}`,
+  `script-src 'self' https://cloud.umami.is ${inlineHashes.join(' ')}`, // Umami analytics
   "style-src 'self' 'unsafe-inline'", // React style attributes in the pipeline diagram
   "img-src 'self' data:",
   "font-src 'self'",
-  "connect-src 'self' https://formspree.io https://api.github.com", // contact form, live pipeline runs
+  "connect-src 'self' https://formspree.io https://api.github.com https://cloud.umami.is https://api-gateway.umami.dev", // contact form, live pipeline runs, Umami
   "form-action 'self' https://formspree.io",
   "base-uri 'self'",
   "object-src 'none'",
